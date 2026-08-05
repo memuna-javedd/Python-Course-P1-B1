@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variables & Data Types  AutoMind Python Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0710;
+    --bg-soft: #0d0916;
+    --card: #14101f;
+    --card-hover: #1a1428;
+    --inset: #100c1a;
+    --accent: #a855f7;
+    --accent-bright: #c084fc;
+    --accent-2: #f472b6;
+    --accent-2-soft: #f472b64d;
+    --text: #ede8f7;
+    --text-muted: #a89ac2;
+    --text-faint: #6f6284;
+    --border: rgba(168,85,247,0.16);
+    --border-bright: rgba(168,85,247,0.4);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --code-str: #a5f3c0;
+    --code-kw: #c084fc;
+    --code-num: #f9a8d4;
+    --code-com: #6f6284;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(168,85,247,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 600px at 100% 20%, rgba(244,114,182,0.08), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  ::selection{ background: var(--accent); color: #0a0710; }
+
+  ::-webkit-scrollbar{ width: 10px; }
+  ::-webkit-scrollbar-track{ background: var(--bg); }
+  ::-webkit-scrollbar-thumb{ background: #2a1f3d; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover{ background: var(--accent); }
+
+  .wrap{ max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:17px; letter-spacing: 0.2px;
+  }
+  .brand-mark{
+    width:26px; height:26px; flex-shrink:0;
+  }
+  .brand span{
+    background: linear-gradient(90deg, var(--accent-bright), var(--accent-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 64px 0 40px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color: var(--accent-bright);
+    background: rgba(168,85,247,0.09);
+    border:1px solid var(--border-bright);
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2);
+  }
+  h1.title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: clamp(32px, 6vw, 50px);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin-bottom: 18px;
+  }
+  h1.title em{
+    font-style:normal;
+    background: linear-gradient(100deg, var(--accent-bright) 10%, var(--accent-2) 90%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-sub{
+    color: var(--text-muted);
+    font-size: 16.5px;
+    max-width: 560px;
+    margin-bottom: 30px;
+  }
+
+  /* ---------- SHELF SIGNATURE VISUAL ---------- */
+  .shelf{
+    display:flex; gap:14px; align-items:flex-end;
+    padding: 26px 20px 20px;
+    background: var(--card);
+    border:1px solid var(--border);
+    border-radius: 16px;
+    overflow-x:auto;
+  }
+  .jar{
+    flex: 1 0 auto;
+    width: 92px;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .jar-body{
+    height: 74px;
+    border-radius: 10px 10px 16px 16px;
+    border: 1.5px solid var(--border-bright);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:600; font-size: 13px;
+    margin-bottom:8px;
+  }
+  .jar-lid{
+    height: 8px; width: 70%; margin: 0 auto -3px;
+    background: var(--accent);
+    border-radius: 4px 4px 0 0;
+    position:relative; z-index:2;
+  }
+  .jar-label{ font-size:11px; color: var(--text-faint); }
+  .jar.j-int .jar-body{ background: rgba(168,85,247,0.12); color:var(--accent-bright); }
+  .jar.j-float .jar-body{ background: rgba(244,114,182,0.12); color:var(--accent-2); }
+  .jar.j-str .jar-body{ background: rgba(74,222,128,0.10); color:var(--green); }
+  .jar.j-bool .jar-body{ background: rgba(251,191,36,0.10); color:var(--amber); }
+
+  /* ---------- SECTIONS ---------- */
+  section.concept{ padding: 46px 0; border-top: 1px solid var(--border); }
+  .concept-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px; color: var(--text-faint);
+    letter-spacing:0.05em;
+    margin-bottom:10px;
+  }
+  h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 4vw, 28px);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  p{ color: var(--text-muted); margin-bottom: 14px; font-size:15.5px; }
+  p.lead{ color: var(--text); font-size:16px; }
+  strong{ color: var(--text); font-weight:600; }
+
+  .analogy{
+    background: linear-gradient(135deg, rgba(168,85,247,0.10), rgba(244,114,182,0.06));
+    border-left: 3px solid var(--accent);
+    border-radius: 4px 10px 10px 4px;
+    padding: 16px 18px;
+    margin: 18px 0;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .analogy .tag{
+    display:block; font-family:'JetBrains Mono', monospace;
+    font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em;
+    color: var(--accent-bright); margin-bottom:6px;
+  }
+
+  .code-block{
+    background: var(--inset);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 16px 0 20px;
+    overflow-x:auto;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height:1.7;
+  }
+  .code-block .kw{ color: var(--code-kw); }
+  .code-block .str{ color: var(--code-str); }
+  .code-block .num{ color: var(--code-num); }
+  .code-block .com{ color: var(--code-com); font-style:italic; }
+
+  .rules-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+    margin: 16px 0 20px;
+  }
+  @media (max-width:520px){ .rules-grid{ grid-template-columns: 1fr; } }
+  .rule-card{
+    background: var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:12px 14px;
+    font-family:'JetBrains Mono', monospace; font-size:13px;
+  }
+  .rule-card.good{ border-color: rgba(74,222,128,0.35); }
+  .rule-card.bad{ border-color: rgba(248,113,113,0.35); }
+  .rule-card .mark{ font-size:12px; margin-right:6px; }
+  .rule-card.good .mark{ color: var(--green); }
+  .rule-card.bad .mark{ color: #f87171; }
+
+  table.types{
+    width:100%; border-collapse: collapse; margin: 16px 0 20px;
+    font-size: 14px; overflow:hidden; border-radius:10px;
+  }
+  table.types th, table.types td{
+    text-align:left; padding: 11px 14px; border-bottom:1px solid var(--border);
+  }
+  table.types th{
+    font-family:'JetBrains Mono', monospace; font-size:12px;
+    text-transform:uppercase; letter-spacing:0.05em; color:var(--accent-bright);
+    background: rgba(168,85,247,0.07);
+  }
+  table.types td{ color: var(--text-muted); }
+  table.types td.val{ color: var(--text); font-family:'JetBrains Mono', monospace; font-size:13px; }
+  table.types tr:last-child td{ border-bottom:none; }
+
+  /* ---------- PRACTICE ---------- */
+  .practice{
+    margin-top: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 22px 8px;
+  }
+  .practice-head{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom: 14px;
+  }
+  .practice-head .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--accent-2); box-shadow:0 0 8px var(--accent-2);
+  }
+  .practice-head h3{
+    font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:600;
+    color: var(--accent-bright);
+  }
+  .q{
+    padding: 14px 0;
+    border-top: 1px dashed var(--border);
+    font-size: 14.5px;
+  }
+  .q:first-of-type{ border-top:none; }
+  .q-num{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--accent-2); margin-right:8px;
+  }
+  details{ margin-top:8px; }
+  details summary{
+    cursor:pointer; list-style:none;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--text-faint);
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 4px 10px; border:1px solid var(--border); border-radius:100px;
+    transition: all 0.15s ease;
+  }
+  details summary::-webkit-details-marker{ display:none; }
+  details summary:hover{ color: var(--accent-bright); border-color: var(--border-bright); }
+  details[open] summary{ color: var(--accent-bright); }
+  details .hint-body{
+    margin-top:8px; padding: 10px 14px;
+    background: var(--inset); border-radius:8px;
+    color: var(--text-muted); font-size:13.5px;
+    border-left: 2px solid var(--accent);
+  }
+
+  /* ---------- RECAP ---------- */
+  .recap{
+    margin: 60px 0 20px;
+    background: linear-gradient(135deg, rgba(168,85,247,0.12), rgba(244,114,182,0.05));
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .recap h2{ margin-bottom: 14px; }
+  .recap ul{ list-style:none; }
+  .recap li{
+    color: var(--text-muted);
+    padding: 8px 0 8px 24px;
+    position:relative;
+    font-size:14.5px;
+    border-top: 1px dashed var(--border);
+  }
+  .recap li:first-child{ border-top:none; }
+  .recap li::before{
+    content:'→'; position:absolute; left:0; color: var(--accent-bright);
+  }
+  .recap li strong{ color:var(--text); }
+
+  footer{
+    padding: 40px 0 60px;
+    text-align:center;
+    color: var(--text-faint);
+    font-size: 13px;
+    border-top:1px solid var(--border);
+  }
+  footer .fbrand{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    color: var(--text-muted); margin-bottom:6px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap brand">
+    <svg class="brand-mark" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="11.5" stroke="#a855f7" stroke-width="1.6"/>
+      <path d="M13 5.5c-3 2.2-3 13 0 15 3-2 3-12.8 0-15z" stroke="#f472b6" stroke-width="1.4" fill="none"/>
+      <circle cx="13" cy="13" r="2" fill="#c084fc"/>
+    </svg>
+    Auto<span>Mind</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Python Course · Phase 1, Lesson 1</div>
+    <h1 class="title">Variables & <em>Data Types</em></h1>
+    <p class="hero-sub">
+      Every program needs somewhere to keep the things it's working with  a name, a score, a price.
+      This lesson teaches you how Python stores and labels information, using everyday analogies
+      instead of dry definitions.
+    </p>
+
+    <div class="shelf">
+      <div class="jar j-int">
+        <div class="jar-lid"></div>
+        <div class="jar-body">20</div>
+        <div class="jar-label">age (int)</div>
+      </div>
+      <div class="jar j-float">
+        <div class="jar-lid"></div>
+        <div class="jar-body">19.99</div>
+        <div class="jar-label">price (float)</div>
+      </div>
+      <div class="jar j-str">
+        <div class="jar-lid"></div>
+        <div class="jar-body">"Ahmad"</div>
+        <div class="jar-label">name (str)</div>
+      </div>
+      <div class="jar j-bool">
+        <div class="jar-lid"></div>
+        <div class="jar-body">True</div>
+        <div class="jar-label">is_pro (bool)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 -->
+  <section class="concept">
+    <div class="concept-num">CONCEPT 01</div>
+    <h2>What Is a Variable?</h2>
+    <p class="lead">A variable is a <strong>named container that holds a value</strong> so your program can use it later.</p>
+
+    <div class="analogy">
+      <span class="tag">Analogy</span>
+      Think of a variable like a labeled jar in your kitchen. You put something inside it  sugar, salt,
+      rice  and you stick a label on the front so you (or anyone else) can find it later without opening
+      every jar. In Python, the label is the <strong>variable name</strong>, and whatever is inside is the
+      <strong>value</strong>.
+    </div>
+
+    <p>You create a variable using the <strong>=</strong> sign. This isn't "equals" like in math  it means
+    "put this value into this jar."</p>
+
+    <div class="code-block">
+<span class="kw">age</span> = <span class="num">20</span>          <span class="com"># jar labeled "age" holding 20</span>
+<span class="kw">name</span> = <span class="str">"Ahmad"</span>    <span class="com"># jar labeled "name" holding "Ahmad"</span>
+<span class="kw">print</span>(<span class="kw">age</span>)       <span class="com"># opens the jar and shows what's inside → 20</span>
+    </div>
+
+    <div class="practice">
+      <div class="practice-head"><span class="dot"></span><h3>Practice  Variables</h3></div>
+      <div class="q"><span class="q-num">1.</span>Create a variable called <code>city</code> and store your city's name in it. Then print it.
+        <details><summary>💡 Hint</summary><div class="hint-body">Use the format <code>variable_name = value</code>, and remember text needs quotation marks.</div></details>
+      </div>
+      <div class="q"><span class="q-num">2.</span>What do you think happens if you write <code>20 = age</code> instead of <code>age = age = 20</code>? Try it and see what Python says.
+        <details><summary>💡 Hint</summary><div class="hint-body">The jar label must always go on the left side of <code>=</code>. Python can't label a number.</div></details>
+      </div>
+      <div class="q"><span class="q-num">3.</span>Create two variables, <code>score</code> and <code>level</code>, give them values, and print both in one line using <code>print()</code>.
+        <details><summary>💡 Hint</summary><div class="hint-body"><code>print()</code> can take multiple values separated by commas.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 -->
+  <section class="concept">
+    <div class="concept-num">CONCEPT 02</div>
+    <h2>Naming Rules for Variables</h2>
+    <p class="lead">Not every label is allowed. Python has strict rules about what a variable name can look like.</p>
+
+    <div class="analogy">
+      <span class="tag">Analogy</span>
+      It's like naming a file on your phone. You can call it <strong>"holiday_photo"</strong>, but your
+      phone won't let you name it starting with a symbol, or reuse special system names. Python is the
+      same  some names are simply off-limits.
+    </div>
+
+    <div class="rules-grid">
+      <div class="rule-card good"><span class="mark">✓</span>my_age</div>
+      <div class="rule-card bad"><span class="mark">✗</span>2age <span style="color:var(--text-faint)">(can't start with a number)</span></div>
+      <div class="rule-card good"><span class="mark">✓</span>_score</div>
+      <div class="rule-card bad"><span class="mark">✗</span>my-age <span style="color:var(--text-faint)">(hyphens not allowed)</span></div>
+      <div class="rule-card good"><span class="mark">✓</span>studentName</div>
+      <div class="rule-card bad"><span class="mark">✗</span>class <span style="color:var(--text-faint)">(reserved keyword)</span></div>
+    </div>
+
+    <p>Python is also <strong>case-sensitive</strong>  <code>age</code> and <code>Age</code> are treated as
+    two completely different jars, even if that seems confusing at first.</p>
+
+    <div class="practice">
+      <div class="practice-head"><span class="dot"></span><h3>Practice  Naming Rules</h3></div>
+      <div class="q"><span class="q-num">1.</span>Which of these are valid variable names? <code>2total</code>, <code>total_2</code>, <code>total-2</code>, <code>_total</code>
+        <details><summary>💡 Hint</summary><div class="hint-body">Check: does it start with a letter or underscore? Does it avoid hyphens?</div></details>
+      </div>
+      <div class="q"><span class="q-num">2.</span>Rewrite <code>"user name"</code> as a valid Python variable name.
+        <details><summary>💡 Hint</summary><div class="hint-body">Spaces aren't allowed  Python programmers usually replace them with an underscore.</div></details>
+      </div>
+      <div class="q"><span class="q-num">3.</span>Create two variables, <code>score</code> and <code>Score</code>, give them different values, and print both. What does this tell you about case sensitivity?
+        <details><summary>💡 Hint</summary><div class="hint-body">If both print different values without errors, they're being treated as separate jars.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 -->
+  <section class="concept">
+    <div class="concept-num">CONCEPT 03</div>
+    <h2>Data Types  Different Kinds of Containers</h2>
+    <p class="lead">Not everything you store is the same <em>kind</em> of thing. Python has different data types for different kinds of values.</p>
+
+    <div class="analogy">
+      <span class="tag">Analogy</span>
+      A jar for rice isn't the same as an envelope for a letter, and neither is the same as a light switch
+      that's simply on or off. In the same way, Python uses different <strong>data types</strong> to store
+      numbers, text, decimals, and yes/no values.
+    </div>
+
+    <table class="types">
+      <tr><th>Type</th><th>What it stores</th><th>Example</th></tr>
+      <tr><td>int</td><td>Whole numbers</td><td class="val">age = 20</td></tr>
+      <tr><td>float</td><td>Decimal numbers</td><td class="val">price = 19.99</td></tr>
+      <tr><td>str</td><td>Text (string of characters)</td><td class="val">name = "Ahmad"</td></tr>
+      <tr><td>bool</td><td>True or False only</td><td class="val">is_student = True</td></tr>
+    </table>
+
+    <div class="code-block">
+<span class="kw">age</span> = <span class="num">20</span>            <span class="com"># int</span>
+<span class="kw">price</span> = <span class="num">19.99</span>       <span class="com"># float</span>
+<span class="kw">name</span> = <span class="str">"Ahmad"</span>      <span class="com"># str</span>
+<span class="kw">is_student</span> = <span class="num">True</span>  <span class="com"># bool</span>
+    </div>
+
+    <div class="practice">
+      <div class="practice-head"><span class="dot"></span><h3>Practice  Data Types</h3></div>
+      <div class="q"><span class="q-num">1.</span>Identify the data type of each: <code>5</code>, <code>"Pakistan"</code>, <code>3.14</code>, <code>False</code>
+        <details><summary>💡 Hint</summary><div class="hint-body">Whole number → int. Quoted text → str. Has a decimal point → float. True/False → bool.</div></details>
+      </div>
+      <div class="q"><span class="q-num">2.</span>Create one variable of each type: an int, a float, a str, and a bool.
+        <details><summary>💡 Hint</summary><div class="hint-body">Give each a name that describes what it represents, like <code>marks</code>, <code>gpa</code>, <code>city</code>, <code>is_active</code>.</div></details>
+      </div>
+      <div class="q"><span class="q-num">3.</span>What data type would you use to store: your CNIC number, your GPA, and whether you're logged in?
+        <details><summary>💡 Hint</summary><div class="hint-body">Think carefully about the CNIC number  do you ever do math with it? That's a clue.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 4 -->
+  <section class="concept">
+    <div class="concept-num">CONCEPT 04</div>
+    <h2>Checking a Type with <code>type()</code></h2>
+    <p class="lead">If you're ever unsure what's inside a jar, Python can tell you.</p>
+
+    <div class="analogy">
+      <span class="tag">Analogy</span>
+      <code>type()</code> is like shaking a jar and asking "what's inside this?" instead of guessing.
+      Python opens it up and tells you exactly what kind of value it's holding.
+    </div>
+
+    <div class="code-block">
+<span class="kw">age</span> = <span class="num">20</span>
+<span class="kw">print</span>(<span class="kw">type</span>(<span class="kw">age</span>))   <span class="com"># output: &lt;class 'int'&gt;</span>
+    </div>
+
+    <div class="practice">
+      <div class="practice-head"><span class="dot"></span><h3>Practice  type()</h3></div>
+      <div class="q"><span class="q-num">1.</span>Use <code>type()</code> to check the type of a variable you created earlier in this lesson.
+        <details><summary>💡 Hint</summary><div class="hint-body">Wrap the variable name inside <code>type()</code>, then wrap that inside <code>print()</code>.</div></details>
+      </div>
+      <div class="q"><span class="q-num">2.</span>What type do you think <code>5 + 2.0</code> results in? Try it in Python and check if you were right.
+        <details><summary>💡 Hint</summary><div class="hint-body">When an int and a float are combined, Python usually upgrades the result to the more precise type.</div></details>
+      </div>
+      <div class="q"><span class="q-num">3.</span>Guess before running: what does <code>type("5")</code> return  int or str? Why might Python treat it that way even though it looks like a number?
+        <details><summary>💡 Hint</summary><div class="hint-body">Look closely  it's wrapped in quotation marks. That changes everything.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 5 -->
+  <section class="concept">
+    <div class="concept-num">CONCEPT 05</div>
+    <h2>Type Conversion (Casting)</h2>
+    <p class="lead">Sometimes you need to change a value from one type to another  this is called <strong>type casting</strong>.</p>
+
+    <div class="analogy">
+      <span class="tag">Analogy</span>
+      It's like currency exchange. 100 rupees and its dollar equivalent represent the same value, just in a
+      different form you can use in a different context. <code>int("20")</code> takes the text
+      <code>"20"</code> and converts it into the actual number <code>20</code> so you can do math with it.
+    </div>
+
+    <div class="code-block">
+<span class="kw">age_str</span> = <span class="str">"20"</span>              <span class="com"># this is text, not a number</span>
+<span class="kw">age_num</span> = <span class="kw">int</span>(<span class="kw">age_str</span>)     <span class="com"># now it's converted to an int</span>
+<span class="kw">print</span>(<span class="kw">age_num</span> + <span class="num">5</span>)       <span class="com"># output: 25</span>
+    </div>
+
+    <p>Common conversion functions: <code>int()</code>, <code>float()</code>, <code>str()</code>,
+    <code>bool()</code>  each converts a value into that type, when possible.</p>
+
+    <div class="practice">
+      <div class="practice-head"><span class="dot"></span><h3>Practice  Type Conversion</h3></div>
+      <div class="q"><span class="q-num">1.</span>Convert the string <code>"100"</code> into an integer and add <code>50</code> to it.
+        <details><summary>💡 Hint</summary><div class="hint-body">Wrap the string inside <code>int()</code> before adding.</div></details>
+      </div>
+      <div class="q"><span class="q-num">2.</span>What happens if you try <code>int("hello")</code>? Run it and read the error message carefully  why does it fail?
+        <details><summary>💡 Hint</summary><div class="hint-body">Python can only convert text to a number if that text actually looks like a number.</div></details>
+      </div>
+      <div class="q"><span class="q-num">3.</span>Convert <code>3.99</code> into an integer using <code>int()</code>. What happens to the decimal part?
+        <details><summary>💡 Hint</summary><div class="hint-body"><code>int()</code> doesn't round  it simply cuts off everything after the decimal point.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <div class="recap">
+    <h2>Quick Recap</h2>
+    <ul>
+      <li><strong>Variable</strong> = a labeled jar holding a value, created with <code>=</code></li>
+      <li><strong>Naming rules</strong>  letters/underscore to start, no spaces or hyphens, case-sensitive</li>
+      <li><strong>int</strong> = whole numbers, <strong>float</strong> = decimals, <strong>str</strong> = text, <strong>bool</strong> = True/False</li>
+      <li><strong>type()</strong> tells you what kind of value a variable is holding</li>
+      <li><strong>Casting</strong>  <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code> convert between types</li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  <div class="fbrand">AutoMind</div>
+  Python Course · Phase 1, Lesson 1  Variables & Data Types
+</footer>
+
+</body>
+</html>
